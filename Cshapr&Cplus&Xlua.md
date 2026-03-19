@@ -15,3 +15,5 @@ Xlua库：自身内存在C++，gc通过lua的垃圾回收器来收集。
 [CSharpCallLua] —— 让 C# 高效调用 Lua 避免使用 LuaFunction.Call 带来的 object[] 分配和值类型装箱
 [LuaCallCSharp] —— 让 Lua 高效调用 C# 避免运行时反射查找成员，调用路径静态化。
 [GCOptimize] —— 消除值类型传递的 GC
+
+xlua和C#运行在不同的运行时环境，各自管理内存和GC，无法使用共享内存。
