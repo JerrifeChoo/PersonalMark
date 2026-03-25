@@ -29,3 +29,10 @@ IJob/IJobParallelFor/IJobParallelForBatch/IJobEntity<br />
 通常以 实体（或元素）为单位被调用<br />
 IJobChunk<br />
 以 Chunk为单位执行，每个 Execute 调用处理一个完整 Chunk 中的所有实体<br />
+
+Cpu<br />
+通常每个Cpu核心私有L1(分离指令和数据缓存)、L2，L3多核心共享缓存。逐级检查，缺失时从下级加载填回并返回。<br />
+若L1命中，直接返回。<br />
+若L1未命中，查L2，命中则填回L1并返回<br />
+若L2未命中，查L3，命中则填回L2、L1并返回<br />
+若L3未命中，查DRAM，命中则回填L3、L2、L1并返回<br />
