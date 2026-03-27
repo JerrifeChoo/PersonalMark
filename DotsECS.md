@@ -37,3 +37,16 @@ IJob/IJobParallelFor/IJobParallelForBatch/IJobEntity<br />
 IJobChunk<br />
 以 Chunk为单位执行，每个 Execute 调用处理一个完整 Chunk 中的所有实体<br />
 chunkEnabledMask是否被使用取决于整个EntityQuery，而不是单个组件，未继承IEnableableComponent的组件不参与计算。
+
+Update顺序<br />
+1. InitializationSystemGroup (部分 ECS 初始化系统)<br />
+2. MonoBehaviour.Awake / OnEnable / Start (标准 Unity 生命周期)<br />
+3. 【关键阶段】MonoBehaviour.Update 阶段<br />
+   ├── EventSystem.Update() ← 处理 UI 输入事件<br />
+   ├── 所有其他 MonoBehaviour.Update() 脚本<br />
+4. ECS SimulationSystemGroup 阶段 (你的问题中关心的“所有”)<br />
+   ├── BeginSimulationEntityCommandBufferSystem <br />
+   ├── 其他自定义 ECS 系统<br />
+   └── EndSimulationEntityCommandBufferSystem<br />
+5. MonoBehaviour.LateUpdate (如果你有的话)<br />
+6. ECS PresentationSystemGroup (用于渲染)<br />
